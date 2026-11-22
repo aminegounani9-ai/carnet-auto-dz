@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "Carnet Auto DZ",
+    "slug": "carnet-auto-dz",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "android": {
+      "package": "dz.carnetauto.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#101D35"
+      }
+    },
+    "plugins": [
+      "expo-sqlite"
+    ],
+    "experiments": {
+      "typedRoutes": false
+    }
+  }
+}
