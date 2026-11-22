@@ -28,6 +28,11 @@
     "experiments": {
       "typedRoutes": false
     },
-    "icon": "./assets/icon.png"
+    "icon": "./assets/icon.png",
+    "androidNavigationBar": {
+      "backgroundColor": "#FFFFFF",
+      "barStyle": "dark-content",
+      "enforceContrast": false
+    }
   }
 }
