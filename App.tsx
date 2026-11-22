@@ -2,7 +2,6 @@ import React,{useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import {View,Text,TextInput,TouchableOpacity,ScrollView,Modal,StatusBar,Alert,Animated,Platform,Switch,KeyboardAvoidingView} from 'react-native';
 import {SafeAreaProvider,SafeAreaView,useSafeAreaInsets} from 'react-native-safe-area-context';
 import * as NavigationBar from 'expo-navigation-bar';
-import {SafeAreaProvider,SafeAreaView,useSafeAreaInsets} from 'react-native-safe-area-context';
 import {SQLiteProvider,useSQLiteContext} from 'expo-sqlite';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
 import {LinearGradient} from 'expo-linear-gradient';
