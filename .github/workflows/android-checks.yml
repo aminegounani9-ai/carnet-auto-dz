@@ -24,8 +24,12 @@ jobs:
       - run: npx expo export --platform android
       - name: Generate native Android project
         run: npx expo prebuild --platform android --no-install
+      - name: Diagnose Expo Android autolinking modules
+        run: |
+          npx expo-modules-autolinking resolve --platform android --json > /tmp/expo-modules-android.json
+          node -e "const d=require('/tmp/expo-modules-android.json'); const m=d.modules||d; console.log(JSON.stringify(m.map((x,i)=>({index:i,name:x.packageName||x.name||x.moduleName,projects:x.projects?.map(p=>({name:p.name,publication:p.publication}))})),null,2))"
       - name: Build installable debug APK
-        run: cd android && chmod +x gradlew && ./gradlew assembleDebug
+        run: cd android && chmod +x gradlew && ./gradlew assembleDebug --stacktrace
       - uses: actions/upload-artifact@v4
         with:
           name: Carnet-Auto-DZ-Android-APK
