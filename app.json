@@ -23,7 +23,8 @@
           "color": "#3478F6",
           "defaultChannel": "maintenance-reminders"
         }
-      ]
+      ],
+      "expo-navigation-bar"
     ],
     "experiments": {
       "typedRoutes": false
@@ -32,6 +33,7 @@
     "androidNavigationBar": {
       "backgroundColor": "#FFFFFF",
       "barStyle": "dark-content",
+      "borderColor": "#E5EAF2",
       "enforceContrast": false
     }
   }
