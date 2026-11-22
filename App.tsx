@@ -1,6 +1,8 @@
 import React,{useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import {View,Text,TextInput,TouchableOpacity,ScrollView,Modal,StatusBar,Alert,Animated,Platform,Switch,KeyboardAvoidingView} from 'react-native';
 import {SafeAreaProvider,SafeAreaView,useSafeAreaInsets} from 'react-native-safe-area-context';
+import * as NavigationBar from 'expo-navigation-bar';
+import {SafeAreaProvider,SafeAreaView,useSafeAreaInsets} from 'react-native-safe-area-context';
 import {SQLiteProvider,useSQLiteContext} from 'expo-sqlite';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -62,7 +64,7 @@ function AppContent(){
  const fade=useRef(new Animated.Value(0)).current; const slide=useRef(new Animated.Value(14)).current;
  const feedback=useCallback(async()=>{if(haptics)try{await Haptics.selectionAsync()}catch{}},[haptics,sound]);
  const load=useCallback(async()=>{const next:Record<string,Row[]>={};for(const [key,table] of Object.entries(TABLES)){next[key]=await db.getAllAsync('SELECT * FROM '+table+' ORDER BY id DESC')}setRows(next)},[db]);
- useEffect(()=>{load();if(Platform.OS==='android')Notifications.setNotificationChannelAsync('maintenance-reminders',{name:'Rappels et entretien',importance:Notifications.AndroidImportance.HIGH,sound:'default',vibrationPattern:[0,250,250,250],lightColor:C.blue}).catch(()=>{});Notifications.getPermissionsAsync().then(p=>{if(p.status!=='granted'&&notify)Notifications.requestPermissionsAsync()}).catch(()=>{})},[load]);
+ useEffect(()=>{if(Platform.OS==='android'){NavigationBar.setBackgroundColorAsync('#FFFFFF').catch(()=>{});NavigationBar.setButtonStyleAsync('dark').catch(()=>{});NavigationBar.setBorderColorAsync('#E5EAF2').catch(()=>{});}load();if(Platform.OS==='android')Notifications.setNotificationChannelAsync('maintenance-reminders',{name:'Rappels et entretien',importance:Notifications.AndroidImportance.HIGH,sound:'default',vibrationPattern:[0,250,250,250],lightColor:C.blue}).catch(()=>{});Notifications.getPermissionsAsync().then(p=>{if(p.status!=='granted'&&notify)Notifications.requestPermissionsAsync()}).catch(()=>{})},[load]);
  useEffect(()=>{fade.setValue(0);slide.setValue(14);Animated.parallel([Animated.timing(fade,{toValue:1,duration:260,useNativeDriver:true}),Animated.spring(slide,{toValue:0,useNativeDriver:true,damping:18,stiffness:150})]).start()},[tab]);
  const list=rows[tab]||[]; const vehicles=rows.vehicles||[];
  const vehicleName=(id:number)=>{const v=vehicles.find(x=>x.id===id);return v?v.brand+' '+v.model:'Véhicule'};
