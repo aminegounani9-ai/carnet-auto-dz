@@ -28,11 +28,11 @@ jobs:
         run: |
           npx expo-modules-autolinking resolve --platform android --json > /tmp/expo-modules-android.json
           node -e "const d=require('/tmp/expo-modules-android.json'); const m=d.modules||d; console.log(JSON.stringify(m.map((x,i)=>({index:i,name:x.packageName||x.name||x.moduleName,projects:x.projects?.map(p=>({name:p.name,publication:p.publication}))})),null,2))"
-      - name: Build installable debug APK
-        run: cd android && chmod +x gradlew && ./gradlew assembleDebug --stacktrace
+      - name: Build standalone release APK with embedded JavaScript bundle
+        run: cd android && chmod +x gradlew && ./gradlew assembleRelease --stacktrace
       - uses: actions/upload-artifact@v4
         with:
-          name: Carnet-Auto-DZ-Android-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: Carnet-Auto-DZ-Standalone-Android-APK
+          path: android/app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
           retention-days: 14
