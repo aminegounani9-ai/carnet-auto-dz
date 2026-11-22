@@ -54,6 +54,8 @@ async function init(db:any){
  CREATE TABLE IF NOT EXISTS parts(id INTEGER PRIMARY KEY AUTOINCREMENT,vehicle_id INTEGER,name TEXT,reference TEXT,brand TEXT,quantity REAL,min_quantity REAL,unit_price REAL,supplier TEXT,location TEXT,created_at TEXT DEFAULT CURRENT_TIMESTAMP);
  CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY,value TEXT);
  `);
+ const migrations:Record<string,Record<string,string>>={vehicles:{vin:'TEXT',fuel_type:'TEXT',color:'TEXT',engine:'TEXT',purchase_date:'TEXT',notes:'TEXT'},maintenance:{category:'TEXT',next_km:'TEXT',next_date:'TEXT',garage:'TEXT',parts:'TEXT',notes:'TEXT'},fuel:{station:'TEXT',price_liter:'REAL',full_tank:'TEXT',notes:'TEXT'},expenses:{category:'TEXT',payment:'TEXT',notes:'TEXT'},documents:{notification_id:'TEXT'},reminders:{notification_id:'TEXT',done:'INTEGER DEFAULT 0'}};
+ for(const [table,columns] of Object.entries(migrations)){const existing:any[]=await db.getAllAsync('PRAGMA table_info('+table+')');const names=existing.map(c=>c.name);for(const [name,type] of Object.entries(columns)){if(!names.includes(name))await db.execAsync('ALTER TABLE '+table+' ADD COLUMN '+name+' '+type)}}
 }
 function AppContent(){
  const db=useSQLiteContext(); const [tab,setTab]=useState('home'); const [rows,setRows]=useState<Record<string,Row[]>>({}); const [modal,setModal]=useState(false); const [kind,setKind]=useState('vehicles'); const [editId,setEditId]=useState<number|null>(null); const [form,setForm]=useState<Record<string,string>>({}); const [search,setSearch]=useState(''); const [sound,setSound]=useState(true); const [haptics,setHaptics]=useState(true); const [notify,setNotify]=useState(true); const [selectedVehicle,setSelectedVehicle]=useState(''); const [busy,setBusy]=useState(false);
